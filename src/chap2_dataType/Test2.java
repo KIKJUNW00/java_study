@@ -7,7 +7,7 @@ public class Test2 {
 		/*
 		 * 변수선언
 		 */
-		System.out.println("\n출력결과");// 정수 변수s
+		System.out.println("\n출력결과");// 정수 변수ss
 		
 		
 	}
