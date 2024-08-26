@@ -21,7 +21,7 @@ public class 실습2_1정수변수 {
 		System.out.println("정수변수값 = "+ num + " 실수변수값 = "+ dnum );
 		
 		System.out.println("-*--------------------------------------");
-		  // 실수형에서 정수형으로 변환 (명시적 형 변환)
+		  // 실수형에서 정수형으로 변환 (명시적 형 변환)s
 		System.out.print("실수를 입력하세요: ");
 		double dnum2 = sc.nextDouble();
 		int num2 = (int)dnum2;
