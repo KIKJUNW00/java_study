@@ -24,7 +24,6 @@ public class Test31_1Gugudan2 {
 		scanner.close();
 	}
 
-	
 //	public static void main(String[] args) {
 //        Scanner scanner = new Scanner(System.in);
 //
