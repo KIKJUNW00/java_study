@@ -1,4 +1,4 @@
-package chap6;
+package chap6.copy;
 
 class Count{
 	public static int totalCount;

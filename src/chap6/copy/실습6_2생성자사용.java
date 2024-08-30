@@ -1,4 +1,4 @@
-package chap6;
+package chap6.copy;
 
 class Student5 {
 	// 필드

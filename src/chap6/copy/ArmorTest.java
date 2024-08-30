@@ -1,4 +1,4 @@
-package chap6;
+package chap6.copy;
 
 public class ArmorTest {
 	public static void main(String[] args) {
