@@ -1,0 +1,63 @@
+package com.ruby.java.ch12;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+public class Test1_1 {
+    public static void main(String[] args) {
+
+        // 명령줄 인자가 2개가 아니면 안내 메시지 출력
+        if (args.length != 2) {
+           System.out.println("usage: java ArgsfTest");
+            return;
+        }
+        System.out.println(args[0]+ " "+ args[1]);
+        
+        long start = System.currentTimeMillis();
+        copyFile(args[0], args[1]);
+        System.out.println("copyFile: "+ (System.currentTimeMillis()-start));
+       
+        start = System.currentTimeMillis();
+        copyFile1(args[0], args[1]);
+        System.out.println("copyFile1: "+ (System.currentTimeMillis()-start));
+        
+        
+    }
+    
+    private static void copyFile1(String string, String string2) {
+    	// 파일 복사 작업
+        try (BufferedInputStream fi = new BufferedInputStream(new FileInputStream(string));
+             BufferedOutputStream fo = new BufferedOutputStream(new FileOutputStream(string2))) {
+
+            int c = 0;
+            // 파일의 내용을 한 바이트씩 읽고 목적 파일로 복사
+            while ((c = fi.read()) != -1) {
+                fo.write(c);
+            }
+  
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    private static void copyFile(String string, String string2) {
+    	// 파일 복사 작업
+        try (FileInputStream fi = new FileInputStream(string);
+             FileOutputStream fo = new FileOutputStream(string2)) {
+
+            int c;
+            // 파일의 내용을 한 바이트씩 읽고 목적 파일로 복사
+            while ((c = fi.read()) != -1) {
+                fo.write(c);
+            }
+  
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
