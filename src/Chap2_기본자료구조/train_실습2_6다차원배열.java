@@ -108,7 +108,7 @@ public class train_실습2_6다차원배열 {
 		int rows = X.length;
 		int cols = X[0].length;
 		
-		int[][] arr = new int[rows][cols];
+		int[][] arr = new int[cols][rows];
 		
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
