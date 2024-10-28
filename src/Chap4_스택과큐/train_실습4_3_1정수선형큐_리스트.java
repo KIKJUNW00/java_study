@@ -18,7 +18,8 @@ class Queue4 {
 	private int capacity; // 큐의 크기
 	private int front; // 맨 처음 요소 커서
 	private int rear; // 맨 끝 요소 커서
-
+	private int num ; //현재 데이터 개수
+	
 //--- 실행시 예외: 큐가 비어있음 ---//
 	public class EmptyQueueException extends RuntimeException {
 		public EmptyQueueException() {
@@ -33,12 +34,27 @@ class Queue4 {
 
 //--- 생성자(constructor) ---//
 public Queue4(int maxlen) {
-
+	num = front = rear = 0;
+	capacity = maxlen;
+	try {
+		que = new ArrayList<>(capacity);
+	} catch (OutOfMemoryError e) {
+		capacity = 0;
+	}
 }
 
 //--- 큐에 데이터를 인큐 ---//
 	public int enque(int x) throws OverflowQueueException {
+		if(isFull())
+			throw new OverflowQueueException();
 		
+		que.add(rear, x);
+		num++;
+		
+		if(rear == capacity)
+			rear = 0;
+		
+		return x;
 	}
 
 //--- 큐에서 데이터를 디큐 ---//

@@ -67,27 +67,43 @@ class Stack4 {
 
 	// --- 생성자(constructor) ---//
 	public Stack4(int capacity) {
-
+		top = 0;
+		this.capacity = capacity;
+		try {
+			data = new ArrayList<Point>(capacity);
+		} catch (Exception e) {
+			capacity = 0;
+		}
+		
 	}
 
 	// --- 스택에 x를 푸시 ---//
 	public boolean push(Point x) throws OverflowGenericStackException {
-
-
+		if(isFull())
+			throw new OverflowGenericStackException("스택이 가득 찼습니다.");
+		data.add(x);
+		top++;
+		return true;
 	}
 
 	// --- 스택에서 데이터를 팝(정상에 있는 데이터를 꺼냄) ---//
 	public Point pop() throws EmptyGenericStackException {
-
+		if(isEmpty())
+			throw new EmptyGenericStackException("스택이 비었습니다");
+		Point p =data.remove(--top);
+		return p;
 	}
 
 	// --- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
 	public Point peek() throws EmptyGenericStackException {
-
+		if(isEmpty())
+			throw new EmptyGenericStackException("스택이 비었습니다.");
+		return data.get(top-1);
 	}
 
 	// --- 스택을 비움 ---//
 	public void clear() {
+		data.removeAll(data);
 		top = 0;
 	}
 
@@ -132,31 +148,44 @@ class Stack4 {
 }
 
 public class train_QueenEight_구현실습과제 {
+	
+	private static void EightQueen(int[][] d) {
+		int numberOfSolutions = 0;
+		int count = 0;//퀸 배치 갯수
+		int ix = 0, iy = 0;// 행 ix, 열 iy
+		Stack4 st = new Stack4(100); //100개를 저장할 수 있는 스택을 만들고
+		Point p = new Point(ix, iy); //현 위치를 객체로 만들고
+		
+		d[ix][iy] = 1;//현 위치에 queen을 넣었다는 표시를 하고
+		count++;
+		st.push(p);// 스택에 현 위치 객체를 push
+		ix++;//ix는 행별로 퀸 배치되는 것을 말한다.
+		iy = 0;//다음 행으로 이동하면 열은 0부터 시작
+		while (true) {
+			if (st.isEmpty() && ix == 8) //ix가 8이면 8개 배치 완료, stack이 empty가 아니면 다른 해를 구한다 
+				break;
+			if ((iy = nextMove(d, ix, iy))== -1) {//다음 이동할 열을 iy로 주는데 -1이면 더이상 이동할 열이 없음을 나타냄
 
-	int numberOfSolutions = 0;
-	int count = 0;//퀸 배치 갯수
-	int ix = 0, iy = 0;// 행 ix, 열 iy
-	Stack5 st = new Stack5(100); //100개를 저장할 수 있는 스택을 만들고
-	Point5 p = new Point5(ix, iy);//현 위치를 객체로 만들고
-	d[ix][iy] = 1;//현 위치에 queen을 넣었다는 표시를 하고
-	count++;
-	st.push(p);// 스택에 현 위치 객체를 push
-	ix++;//ix는 행별로 퀸 배치되는 것을 말한다.
-	iy = 0;//다음 행으로 이동하면 열은 0부터 시작
-	while (true) {
-		if (st.isEmpty() && ix == 8) //ix가 8이면 8개 배치 완료, stack이 empty가 아니면 다른 해를 구한다 
-			break;
-		if ((iy = nextMove(d, ix, iy))== -1) {//다음 이동할 열을 iy로 주는데 -1이면 더이상 이동할 열이 없음을 나타냄
+			}
+
+			if (count == 8) { //8개를 모두 배치하면
+
+			}
 
 		}
+	}
+	
+	public static void main(String[] args) {
+		int row = 8, col = 8;
+		int[][] data = new int[8][8];
+		for (int i = 0; i < data.length; i++)
+			for (int j = 0; j < data[0].length; j++)
+				data[i][j] = 0;
 
-		if (count == 8) { //8개를 모두 배치하면
-
-		}
+		EightQueen(data);
 
 	}
 
-}
 
 
 public static boolean checkRow(int[][] d, int crow) { //배열 d에서 행 crow에 퀸을 배치할 수 있는지 조사
@@ -188,14 +217,7 @@ static void showQueens(int[][] data) {// 배열 출력
 
 }
 
-public static void main(String[] args) {
-	int row = 8, col = 8;
-	int[][] data = new int[8][8];
-	for (int i = 0; i < data.length; i++)
-		for (int j = 0; j < data[0].length; j++)
-			data[i][j] = 0;
-
-	EightQueen(data);
-
 }
-}
+
+
+
