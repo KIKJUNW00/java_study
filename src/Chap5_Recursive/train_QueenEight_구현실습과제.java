@@ -37,6 +37,23 @@ class Point {
 	private int ix;
 	private int iy;
 
+
+	public int getIx() {
+		return ix;
+	}
+	
+	public void setIx(int ix) {
+		this.ix = ix;
+	}
+
+	public int getIy() {
+		return iy;
+	}
+
+	public void setIy(int iy) {
+		this.iy = iy;
+	}
+
 	public Point(int x, int y) {
 		ix = x;
 		iy = y;
@@ -161,28 +178,66 @@ public class train_QueenEight_구현실습과제 {
 		d[ix][iy] = 1;// 현 위치에 queen을 넣었다는 표시를 하고
 		count++;
 		st.push(p);// 스택에 현 위치 객체를 push
-		ix++;// ix는 행별로 퀸 배치되는 것을 말한다.
+		ix++;// ix는 행별로 퀸 배치되는 것을 말한다.		
 		iy = 0;// 다음 행으로 이동하면 열은 0부터 시작
+		
 		while (true) {
-			if (st.isEmpty() && ix == 8) // ix가 8이면 8개 배치 완료, stack이 empty가 아니면 다른 해를 구한다
-				
+			if (!st.isEmpty() && ix == 8) // ix가 8이면 8개 배치 완료, stack이 empty가 아니면 다른 해를 구한다
 				break;
 			
 			if ((iy = nextMove(d, ix, iy)) == -1) {// 다음 이동할 열을 iy로 주는데 -1이면 더이상 이동할 열이 없음을 나타냄
 
-				try {
-					st.pop();
+				if (!st.isEmpty()) {
 					
-					
-				} catch (Exception e) {
-					e.printStackTrace();
+					try {
+						p = st.pop();
+						ix = p.getIx();
+						iy = p.getIy();
+						d[ix][iy] = 0;
+						count--;
+						iy++; // 다음 열 시도
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+
+					}
+				}else {
+					break; // 스택이 비어 있으면 종료
 				}
+				
+			} else {
+	            // 유효한 이동이 가능하면 새로운 위치에 퀸을 놓음
+	            p = new Point(ix, iy);
+	            d[ix][iy] = 1;
+	            count++;
+	            st.push(p);
+	            ix++;
+	            iy = 0;
 			}
 
 			if (count == 8) { // 8개를 모두 배치하면
 				numberOfSolutions++;
 				System.out.println("Solutions "+numberOfSolutions+" :");
 				showQueens(d); //베열출력
+				
+				if (!st.isEmpty()) {
+					
+					// 백트래킹을 위해 마지막 퀸을 제거
+					try {
+						p = st.pop();
+						ix = p.getIx();
+						iy = p.getIy();
+						d[ix][iy] = 0;
+						count--;
+						iy++; // 다음 열로 이동
+						continue; // 다음 해를 찾기 위해 계속 탐색
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}else {
+					break;
+				}
 			}
 
 		}
@@ -226,7 +281,9 @@ public class train_QueenEight_구현실습과제 {
 	
 		}
 		
-		while (x < 8 && y <= 0 ) { //남서
+		x = cx;
+		y= cy;
+		while (x < 8 && y >= 0 ) { //남서
 			
 			if (d[x][y] == 1) return false;
 			x++;
@@ -246,6 +303,8 @@ public class train_QueenEight_구현실습과제 {
 			y++;
 		}
 		
+	    x = cx;
+		y = cy;
 		while (x >= 0 && y >= 0) {
 			
 			if(d[x][y] == 1) return false;
@@ -263,15 +322,22 @@ public class train_QueenEight_구현실습과제 {
 
 //배열 d에서 현재 위치(row,col)에 대하여 다음에 이동할 위치 nextCol을 반환, 이동이 가능하지 않으면 -1를 리턴
 	public static int nextMove(int[][] d, int row, int col) {// 현재 row, col에 대하여 이동할 col을 return
-		int x = row, y=col;
-		while (y < 8) {
-			if(checkMove(d, x, y)) return y;
-		}
+
+		for (int y = col; y < d[0].length; y++)
+			if (checkMove(d, row, y))
+				return y;
+
 		return -1;
 	}
 
 	static void showQueens(int[][] data) {// 배열 출력
-		
+		for (int[] row : data) {
+			for (int val : row) {
+				System.out.print((val == 1 ? "Q " : ". "));
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 
 }
